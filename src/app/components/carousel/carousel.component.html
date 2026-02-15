@@ -1,0 +1,24 @@
+<section class="carousel-section-brainwave py-5">
+  <div class="container">
+    <h2 class="section-title-brainwave text-center mb-5">Our Courses</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let course of courses()">
+        <div class="card card-carousel-brainwave h-100" [attr.data-accent]="course.accentColor">
+          <div class="card-img-wrap">
+            <img
+              [src]="course.imagePath"
+              [alt]="course.title"
+              class="card-img-top card-carousel-img"
+              (error)="onImgError($event)"
+            />
+            <div class="card-img-placeholder" [attr.data-accent]="course.accentColor"></div>
+          </div>
+          <div class="card-body p-4">
+            <h5 class="card-title">{{ course.title }}</h5>
+            <p class="card-text mb-0">{{ course.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

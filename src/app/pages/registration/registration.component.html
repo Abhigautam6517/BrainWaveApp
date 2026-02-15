@@ -1,0 +1,111 @@
+<div class="page-wrap registration-page-wrap">
+  <app-navbar></app-navbar>
+  <main class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-6">
+          <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-body p-4 p-md-5">
+              <h1 class="h3 fw-bold mb-2">Register with BrainWave AI Institute</h1>
+              <p class="text-muted mb-4">Join as a Student or register your School.</p>
+
+              <div class="alert alert-success" *ngIf="successMessage()" role="alert">
+                {{ successMessage() }}
+              </div>
+              <div class="alert alert-danger" *ngIf="errorMessage()" role="alert">
+                {{ errorMessage() }}
+              </div>
+
+              <form class="form-brainwave" (ngSubmit)="onSubmit()" #form="ngForm">
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [class.is-invalid]="name.invalid && name.touched"
+                    id="name"
+                    name="name"
+                    [(ngModel)]="model.name"
+                    #name="ngModel"
+                    required
+                    minlength="2"
+                    maxlength="200"
+                    placeholder="Your full name or school name"
+                  />
+                  <div class="invalid-feedback" *ngIf="name.invalid && name.touched">
+                    <span *ngIf="name.errors?.['required']">Name is required.</span>
+                    <span *ngIf="name.errors?.['minlength']">Name must be at least 2 characters.</span>
+                    <span *ngIf="name.errors?.['maxlength']">Name must not exceed 200 characters.</span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    [class.is-invalid]="email.invalid && email.touched"
+                    id="email"
+                    name="email"
+                    [(ngModel)]="model.email"
+                    #email="ngModel"
+                    required
+                    email
+                    maxlength="200"
+                    placeholder="email@example.com"
+                  />
+                  <div class="invalid-feedback" *ngIf="email.invalid && email.touched">
+                    <span *ngIf="email.errors?.['required']">Email is required.</span>
+                    <span *ngIf="email.errors?.['email']">Please enter a valid email (e.g. name&#64;example.com).</span>
+                    <span *ngIf="email.errors?.['maxlength']">Email must not exceed 200 characters.</span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Phone</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    [class.is-invalid]="phone.invalid && phone.touched"
+                    id="phone"
+                    name="phone"
+                    [(ngModel)]="model.phone"
+                    (ngModelChange)="onPhoneInput()"
+                    #phone="ngModel"
+                    maxlength="10"
+                    pattern="^$|^[0-9]{10}$"
+                    placeholder="e.g. 9876543210"
+                  />
+                  <div class="invalid-feedback" *ngIf="phone.invalid && phone.touched">
+                    <span *ngIf="phone.errors?.['pattern']">Enter exactly 10 digits (numbers only).</span>
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <label for="userType" class="form-label">I am a <span class="text-danger">*</span></label>
+                  <select
+                    class="form-select"
+                    [class.is-invalid]="userType.invalid && userType.touched"
+                    id="userType"
+                    name="userType"
+                    [(ngModel)]="model.userType"
+                    #userType="ngModel"
+                    required
+                  >
+                    <option value="">Select...</option>
+                    <option value="Student">Student</option>
+                    <option value="School">School</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="userType.invalid && userType.touched">
+                    <span *ngIf="userType.errors?.['required']">Please select Student or School.</span>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-register w-100" [disabled]="form.invalid || loading()">
+                  {{ loading() ? 'Submitting...' : 'Submit Registration' }}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <app-footer></app-footer>
+</div>
