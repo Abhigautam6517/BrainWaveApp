@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:7235/api',
+  apiUrl: 'https://brainwave01-001-site1.ktempurl.com/api',
 };
