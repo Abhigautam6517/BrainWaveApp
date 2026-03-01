@@ -25,7 +25,13 @@ export interface User {
   email: string;
   phone: string;
   userType: string;
+  role?: string;
   createdAt?: string;
+}
+
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -85,6 +91,12 @@ export class AuthService {
 
   getMe(): Observable<{ email: string; role: string }> {
     return this.http.get<{ email: string; role: string }>(`${this.apiUrl}/me`, {
+      headers: this.authHeaders(),
+    });
+  }
+
+  changePassword(req: ChangePasswordRequest): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/change-password`, req, {
       headers: this.authHeaders(),
     });
   }

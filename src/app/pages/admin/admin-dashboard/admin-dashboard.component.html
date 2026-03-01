@@ -6,6 +6,9 @@
         <p class="small text-muted mb-0" *ngIf="adminEmail()">Signed in as {{ adminEmail() }}</p>
       </div>
       <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="toggleChangePwd()">
+          {{ showChangePwd() ? 'Cancel' : 'Change password' }}
+        </button>
         <a routerLink="/" class="btn btn-outline-secondary btn-sm">Site</a>
         <button type="button" class="btn btn-outline-danger btn-sm" (click)="logout()">Sign out</button>
       </div>
@@ -13,9 +16,41 @@
   </header>
 
   <main class="container py-4">
+    <!-- Change password section -->
+    <section class="card border-0 shadow-sm rounded-3 mb-4" *ngIf="showChangePwd()">
+      <div class="card-header bg-transparent border-0 py-3">
+        <h2 class="h6 fw-bold mb-0">Change my password</h2>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-success" *ngIf="changePwdSuccess()" role="alert">{{ changePwdSuccess() }}</div>
+        <div class="alert alert-danger" *ngIf="changePwdError()" role="alert">{{ changePwdError() }}</div>
+        <form (ngSubmit)="submitChangePwd()" class="row g-3">
+          <div class="col-12 col-md-4">
+            <label for="currentPwd" class="form-label">Current password</label>
+            <input type="password" class="form-control" id="currentPwd" [(ngModel)]="changePwdModel.currentPassword" name="currentPassword" required />
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="newPwd" class="form-label">New password (min 6)</label>
+            <input type="password" class="form-control" id="newPwd" [(ngModel)]="changePwdModel.newPassword" name="newPassword" required minlength="6" />
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="confirmPwd" class="form-label">Confirm new password</label>
+            <input type="password" class="form-control" id="confirmPwd" [(ngModel)]="changePwdConfirm" name="confirmPwd" required />
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary" [disabled]="changePwdLoading()">
+              {{ changePwdLoading() ? 'Updating...' : 'Update password' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Registered users data -->
     <section class="card border-0 shadow-sm rounded-3">
       <div class="card-header bg-transparent border-0 py-3">
         <h2 class="h6 fw-bold mb-0">Registered users</h2>
+        <p class="small text-muted mb-0 mt-1">Everyone who registered (Student / School) and admin accounts.</p>
       </div>
       <div class="card-body p-0">
         <div class="alert alert-danger m-3" *ngIf="error()" role="alert">
@@ -31,6 +66,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Role</th>
                 <th>Type</th>
                 <th>Registered</th>
               </tr>
@@ -40,11 +76,12 @@
                 <td>{{ u.name }}</td>
                 <td>{{ u.email }}</td>
                 <td>{{ u.phone || '—' }}</td>
+                <td><span class="badge bg-secondary">{{ u.role || u.userType || '—' }}</span></td>
                 <td>{{ u.userType || '—' }}</td>
                 <td>{{ formatDate(u.createdAt) }}</td>
               </tr>
               <tr *ngIf="users().length === 0">
-                <td colspan="5" class="text-muted text-center py-4">No users yet.</td>
+                <td colspan="6" class="text-muted text-center py-4">No users yet.</td>
               </tr>
             </tbody>
           </table>
