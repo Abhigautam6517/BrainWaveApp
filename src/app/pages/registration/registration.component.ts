@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -9,7 +8,7 @@ import { UserService, User } from '../../services/user.service';
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [FormsModule, RouterLink, CommonModule, NavbarComponent, FooterComponent],
+  imports: [FormsModule, CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './registration.component.html',
 })
 export class RegistrationComponent {
