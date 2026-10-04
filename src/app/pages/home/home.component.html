@@ -54,40 +54,29 @@
     </section>
 
     <!-- Visual: Course areas bar chart -->
-    <section class="section-visual py-5">
+    <section class="section-visual py-5" #focusSection>
       <div class="container">
         <h2 class="section-heading-brainwave text-center mb-2">Our Focus Areas</h2>
         <p class="section-subhead text-center text-muted mb-4">Where our 30+ courses are spread across key skills</p>
         <div class="row justify-content-center">
           <div class="col-12 col-lg-10 col-xl-8">
             <div class="chart-bars">
-              <div class="chart-row">
-                <span class="chart-label">AI &amp; Machine Learning</span>
+              <div
+                class="chart-row"
+                *ngFor="let item of focusAreas; let i = index"
+                [class.is-visible]="hasAnimated"
+                [style.transition-delay]="hasAnimated ? (i * 120) + 'ms' : '0ms'"
+              >
+                <span class="chart-label">{{ item.label }}</span>
                 <div class="chart-track">
-                  <div class="chart-fill chart-fill-1" style="width: 85%;"></div>
+                  <div
+                    class="chart-fill"
+                    [ngClass]="item.colorClass"
+                    [style.width.%]="hasAnimated ? item.value : 0"
+                    [style.transition-delay]="hasAnimated ? (i * 120) + 'ms' : '0ms'"
+                  ></div>
                 </div>
-                <span class="chart-pct">35%</span>
-              </div>
-              <div class="chart-row">
-                <span class="chart-label">Coding &amp; Development</span>
-                <div class="chart-track">
-                  <div class="chart-fill chart-fill-2" style="width: 75%;"></div>
-                </div>
-                <span class="chart-pct">30%</span>
-              </div>
-              <div class="chart-row">
-                <span class="chart-label">Future Tech &amp; Robotics</span>
-                <div class="chart-track">
-                  <div class="chart-fill chart-fill-3" style="width: 65%;"></div>
-                </div>
-                <span class="chart-pct">25%</span>
-              </div>
-              <div class="chart-row">
-                <span class="chart-label">Data &amp; Soft Skills</span>
-                <div class="chart-track">
-                  <div class="chart-fill chart-fill-4" style="width: 50%;"></div>
-                </div>
-                <span class="chart-pct">10%</span>
+                <span class="chart-pct">{{ percentValues[i] }}%</span>
               </div>
             </div>
           </div>
